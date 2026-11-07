@@ -111,3 +111,18 @@ body :is(.hero,.card,.pause-button,.timer-controls input,.break-overlay,.subject
 .notes-enter{animation:notesReveal .35s ease both}
 @keyframes notesReveal{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 @media(max-width:700px){.header-center .subject-row{max-height:72px;overflow-y:auto}.subject-notes{margin-top:35px}}
+
+/* Study tables remain readable on narrow screens and across themes. */
+.note-table-scroll{max-width:100%;overflow-x:auto;margin:18px 0;border:1px solid var(--line);border-radius:8px;outline-offset:3px}
+.note-table{width:100%;min-width:360px;border-collapse:collapse;text-align:left;font-size:12px;line-height:1.55;color:var(--ink)}
+.note-table caption{text-align:left;padding:12px 14px;color:var(--ink);font-weight:700}
+.note-table th,.note-table td{padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:top;overflow-wrap:anywhere}
+.note-table th{color:var(--lime);background:color-mix(in srgb,var(--lime) 10%,var(--bg));font-weight:700}
+.note-table tbody tr:last-child td{border-bottom:0}
+.note-table tbody tr:nth-child(even){background:color-mix(in srgb,var(--ink) 4%,transparent)}
+.note-card p{white-space:pre-line}
+.note-code-block,.note-formula{margin:18px 0;border:1px solid var(--line);border-radius:8px;background:color-mix(in srgb,var(--ink) 5%,var(--bg));max-width:100%;overflow-x:auto}
+.note-code-language{display:block;padding:9px 14px;border-bottom:1px solid var(--line);color:var(--lime);font-size:10px;font-weight:700;letter-spacing:.08em}
+.note-code-block pre{margin:0;padding:15px;color:var(--ink);font:12px/1.65 Consolas,monospace;tab-size:2}
+.note-formula{padding:14px;color:var(--ink);text-align:center}
+.note-formula mjx-container[display="true"]{margin:0!important}

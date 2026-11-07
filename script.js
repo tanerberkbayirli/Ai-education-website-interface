@@ -27,6 +27,69 @@ const subjectList = document.getElementById('subjects');
 const notesArea = document.getElementById('subjectNotes');
 let selection = 0;
 function element(tag, className, text) { const node = document.createElement(tag); if (className) node.className = className; node.textContent = text; return node; }
+// Course material and model output are inserted as text, never as HTML.
+function renderTable(data) {
+  if (!data || !Array.isArray(data.headers) || !data.headers.length || !Array.isArray(data.rows)) return null;
+  const wrap = element('div', 'note-table-scroll', '');
+  wrap.tabIndex = 0;
+  wrap.setAttribute('role', 'region');
+  wrap.setAttribute('aria-label', data.caption || 'Study table');
+  const table = element('table', 'note-table', '');
+  if (data.caption) table.append(element('caption', '', data.caption));
+  const head = document.createElement('thead');
+  const headerRow = document.createElement('tr');
+  data.headers.forEach(value => { const cell = element('th', '', value); cell.scope = 'col'; headerRow.append(cell); });
+  head.append(headerRow); table.append(head);
+  const body = document.createElement('tbody');
+  data.rows.forEach(values => {
+    if (!Array.isArray(values)) return;
+    const row = document.createElement('tr');
+    data.headers.forEach((_, index) => row.append(element('td', '', values[index] ?? '')));
+    body.append(row);
+  });
+  table.append(body); wrap.append(table); return wrap;
+}
+function splitTableRow(line) {
+  return line.trim().replace(/^\|/, '').replace(/\|$/, '').split(/(?<!\\)\|/).map(cell => cell.trim().replace(/\\\|/g, '|'));
+}
+function appendBody(card, text) {
+  const lines = String(text || '').split(/\r?\n/);
+  let paragraph = [];
+  const flush = () => { if (paragraph.length) { card.append(element('p', '', paragraph.join('\n'))); paragraph = []; } };
+  for (let i = 0; i < lines.length; i++) {
+    const fence = lines[i].match(/^\s*```([^`]*)\s*$/);
+    if (fence) {
+      flush();
+      const language = fence[1].trim();
+      const codeLines = [];
+      while (++i < lines.length && !/^\s*```\s*$/.test(lines[i])) codeLines.push(lines[i]);
+      const block = element('div', 'note-code-block', '');
+      if (language) block.append(element('span', 'note-code-language', language));
+      const pre = element('pre', 'tex2jax_ignore', '');
+      pre.append(element('code', '', codeLines.join('\n')));
+      block.append(pre); card.append(block);
+      continue;
+    }
+    if (lines[i].trim() === '$$') {
+      flush();
+      const formula = [];
+      while (++i < lines.length && lines[i].trim() !== '$$') formula.push(lines[i]);
+      card.append(element('div', 'note-formula', `$$\n${formula.join('\n')}\n$$`));
+      continue;
+    }
+    const header = splitTableRow(lines[i]);
+    const separator = i + 1 < lines.length ? splitTableRow(lines[i + 1]) : [];
+    if (lines[i].includes('|') && header.length > 1 && separator.length === header.length && separator.every(cell => /^:?-{3,}:?$/.test(cell))) {
+      flush(); i += 2;
+      const rows = [];
+      while (i < lines.length && lines[i].trim() && lines[i].includes('|')) rows.push(splitTableRow(lines[i++]));
+      i--;
+      const table = renderTable({headers: header, rows}); if (table) card.append(table);
+    } else if (!lines[i].trim()) flush();
+    else paragraph.push(lines[i]);
+  }
+  flush();
+}
 async function selectSubject(subject, button) {
   const requestId = ++selection;
   subjectList.querySelectorAll('button').forEach(item => item.setAttribute('aria-pressed', String(item === button)));
@@ -42,13 +105,16 @@ async function selectSubject(subject, button) {
     const grid = element('div', 'notes-grid', '');
     notes.sections.forEach(section => {
       const card = element('article', 'note-card', '');
-      card.append(element('h3', '', section.heading), element('p', '', section.body));
+      card.append(element('h3', '', section.heading));
+      appendBody(card, section.body);
+      if (Array.isArray(section.tables)) section.tables.forEach(data => { const table = renderTable(data); if (table) card.append(table); });
       if (section.tip) card.append(element('p', 'note-tip', `✳  ${section.tip}`));
       if (section.example) card.append(element('p', 'note-example', `EXAMPLE  ·  ${section.example}`));
       grid.append(card);
     });
     notesArea.replaceChildren(heading, grid);
     if (notes.mode === 'sample') notesArea.append(element('p', 'notes-disclaimer', 'Sample notes · Connect an AI API key to organize your own course material.'));
+    if (window.MathJax?.startup?.promise) window.MathJax.startup.promise.then(() => window.MathJax.typesetPromise([notesArea])).catch(() => {});
     requestAnimationFrame(() => notesArea.classList.add('notes-enter'));
   } catch (_) { if (requestId === selection) notesArea.replaceChildren(element('p', 'notes-placeholder', 'Notes could not be loaded. Please check that the local server is running.')); }
 }

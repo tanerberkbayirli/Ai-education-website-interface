@@ -50,7 +50,9 @@ Open `http://127.0.0.1:3000`. Opening `index.html` directly does not connect the
 
 ### Add subjects and notes
 
-Edit `subjects.json`. Each entry needs a unique `id`, a `name`, source text in `source`, and a `sample` object following the existing examples. The page creates a subject button for each entry. The source text is the material the model organizes; the application cannot infer a student's private notes without a source.
+Edit `subjects.json`. Each entry needs a unique `id`, a `name`, source text in `source`, and a `sample` object following the existing examples. The page creates a subject button for each entry. Sections may include a `tables` array, with a `caption`, `headers` array, and `rows` array of string arrays per table. Markdown tables in section bodies are also displayed as tables. AI organization can produce structured tables for source tables or useful comparisons, without inventing data. The source text is the material the model organizes; the application cannot infer a student's private notes without a source.
+
+Section bodies also support fenced Markdown code blocks (optionally with a language label), inline formulas written as `\(x^2\)`, and display formulas between `$$` lines. Formulas are typeset with MathJax loaded from a CDN; if it is unavailable, their LaTeX source remains visible. Code is displayed as text and is never executed.
 
 ### Enable AI organization
 
