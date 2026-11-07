@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#10120f">
+  <title>Education Campus — A space to grow</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Nothing+You+Could+Do&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="topbar"><a class="brand" href="#top" aria-label="Education Campus home"><span class="brand-mark">✳</span><span>education<br><b>campus.</b></span></a><!-- Replace this title with the university, course, or assignment name. --><div class="header-center"><h1 id="pageTitle">Education <em>Campus</em></h1><div class="subject-row" id="subjects" aria-label="Subjects"></div></div><div class="theme-control" aria-label="Choose a color theme"><button class="color-swatch" type="button" data-theme="white" aria-label="White theme" title="White" aria-pressed="false" style="--swatch:#f2f1e8;--angle:0deg"></button><button class="color-swatch" type="button" data-theme="rainbow" aria-label="Rainbow theme" title="Rainbow" aria-pressed="false" style="--swatch:conic-gradient(#ef7081,#f6c863,#93d99b,#7ab8e8,#b493db,#ef7081);--angle:60deg"></button><button class="color-swatch" type="button" data-theme="black" aria-label="Black theme" title="Black" aria-pressed="false" style="--swatch:#111111;--angle:120deg"></button><button class="color-swatch" type="button" data-theme="blue" aria-label="Blue theme" title="Blue" aria-pressed="false" style="--swatch:#76b6f1;--angle:180deg"></button><button class="color-swatch" type="button" data-theme="red" aria-label="Red theme" title="Red" aria-pressed="false" style="--swatch:#ed7777;--angle:240deg"></button><button class="color-swatch" type="button" data-theme="green" aria-label="Green theme" title="Green" aria-pressed="true" style="--swatch:#c9ec80;--angle:300deg"></button><button class="pause-button" id="openBreak" aria-label="Take a break"><span></span><span></span></button></div></header>
+    <main id="top">
+      <section class="hero" aria-labelledby="pageTitle">
+        <div class="hero-kicker"><span></span> YOUR SPACE TO LEARN <span></span></div>
+        <p class="hero-description">A little curiosity goes a long way.<br>Make yourself at home, and let’s learn something new.</p>
+        
+        <div class="subject-notes" id="subjectNotes" aria-live="polite"><p class="notes-placeholder">Choose a subject above to explore your notes.</p></div><div class="hero-bottom"><span>SCROLL TO EXPLORE</span><span class="down-arrow">↓</span><span>01 / 03</span></div>
+      </section>
+      <section class="learning" id="learning">
+        <div class="section-heading"><div><div class="eyebrow"><span class="dot"></span> A SPACE THAT WORKS FOR YOU</div><h2>Your studies, your way.<br><em>Beautifully simple.</em></h2></div><p>Education Campus is a template for students who want a beautiful place to keep their notes and study materials, without having to settle for a clunky interface.</p></div>
+        <div class="template-intro"><span>THREE WAYS TO LEARN</span><p>Choose the approach that fits how you study.</p></div>
+        <div class="cards">
+          <article class="card card-green"><div class="card-top"><span>01 / NOTES</span><span>↗</span></div><div class="card-art orbit"><span class="orbit-core">✳</span><span class="orbit-line one"></span><span class="orbit-line two"></span></div><div class="card-copy"><h3>Notes only.</h3><p>A simple digital notebook where information is brought together, organized, and presented clearly.</p></div></article>
+          <article class="card card-cream"><div class="card-top"><span>02 / NOTES + QUESTIONS</span><span>↗</span></div><div class="card-art steps"><span></span><span></span><span></span><span></span><b>✦</b></div><div class="card-copy"><h3>Learn &amp; practice.</h3><p>Keep your notes in one place, then use AI-generated questions to test what you have learned.</p></div></article>
+          <article class="card card-lilac"><div class="card-top"><span>03 / NOTES + QUESTIONS + ANALYSIS</span><span>↗</span></div><div class="card-art bloom"><span>✳</span><i>✳</i></div><div class="card-copy"><h3>Learn from mistakes.</h3><p>Take notes and practice, while AI keeps track of mistakes for analysis whenever you need it.</p></div></article>
+        </div>
+        <div class="section-end"><span>MADE FOR CURIOUS MINDS</span><span>✳ &nbsp; KEEP LEARNING, KEEP GROWING</span></div>
+      </section>
+      <section class="quote-section"><div class="quote-star">✳</div><p class="quote-label">A LITTLE REMINDER</p><blockquote>“The truest guide in life<br>is <em>science.</em>”</blockquote><p class="quote-credit">MUSTAFA KEMAL ATATÜRK</p><div class="signature" aria-label="Mustafa Kemal Atatürk">K. Atatürk</div><span class="quote-number">A THOUGHT TO TAKE WITH YOU &nbsp; / &nbsp; 01</span></section>
+    </main>
+    <footer><a class="footer-brand" href="#top">✳ &nbsp; education campus.</a><span>MADE FOR THE MINDS OF TOMORROW</span><a href="#top">BACK TO TOP ↑</a></footer>
+  </div>
+  <div class="break-overlay" id="breakOverlay" hidden role="dialog" aria-modal="true" aria-labelledby="breakTitle"><button class="close-break" id="closeBreak" aria-label="Close break">×</button><div class="break-content"><div class="break-icon">✳</div><p class="eyebrow">A MOMENT FOR YOURSELF</p><h2 id="breakTitle">Take a <em>little</em><br>breather.</h2><p>You’re on a break. Set a time below, or simply take as long as you need.</p><div class="timer-display" id="timerDisplay" aria-live="polite">00:00</div><form id="timerForm"><label for="minutes">SET A TIMER IN MINUTES</label><div class="timer-controls"><input id="minutes" type="number" min="1" max="180" placeholder="e.g. 5" inputmode="numeric"><button type="submit">START TIMER ↗</button></div></form><p class="timer-message" id="timerMessage" aria-live="assertive"></p><button class="end-break" id="endBreak">END BREAK <span>↗</span></button></div></div>
+  <script src="script.js"></script>
+</body>
+</html>
